@@ -4,5 +4,8 @@
 EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
-  m_Scenes: []
+  m_Scenes:
+  - enabled: 1
+    path: Assets/MultijugadorEnRed/Scenes/Practica3.unity
+    guid: d9be1fb5b697c6a45bac700250ee9ac4
   m_configObjects: {}
