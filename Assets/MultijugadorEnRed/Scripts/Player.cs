@@ -5,6 +5,9 @@ using Mirror;
 
 public class Player : NetworkBehaviour
 {
+	[SyncVar (hook = nameof(OnHolaCountChange))]
+	int holaCount = 0;
+	
 	void HandleMovement()
 	{
 		if (isLocalPlayer)
@@ -21,5 +24,41 @@ public class Player : NetworkBehaviour
 	protected void Update()
 	{
 		HandleMovement();
+		
+		if(isLocalPlayer && Input.GetKeyDown(KeyCode.X))
+		{
+			Hola();
+		}
+		
+		if (isServer && transform.position.y > 5)
+		{
+			TooHigh();
+		}
 	}
+	
+	[Command]
+	void Hola()
+	{
+		Debug.Log("Recibe un saludo desde el cliente");
+		holaCount +=1;
+		ReplayHola();
+	}
+	
+	[ClientRpc]
+	void TooHigh()
+	{
+		Debug.Log("Andas demasiado alto");
+	}
+	void OnHolaCountChange(int oldCount, int newCount)
+	{
+		Debug.Log($"Teniamos {oldCount} holas, pero ahora tenemos {newCount} holas");
+	}
+	
+	[TargetRpc] 
+	void ReplayHola()
+	{
+		Debug.Log("Recibe un saludo desde el servidor");
+	}
+	
+	
 }
